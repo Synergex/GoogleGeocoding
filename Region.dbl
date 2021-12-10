@@ -1,0 +1,48 @@
+
+import System
+import System.Collections.Generic
+import System.Text
+
+
+namespace GoogleGeocodingAPI
+
+	public class Region
+
+		mCode, String
+		mName, String
+		
+		public method Region
+			required in aCode, String
+			required in aName, String
+			endparams
+		proc
+			mCode = aCode
+			mName = aName
+		endmethod
+
+		public property Code, String
+			method get
+			proc
+				mreturn mCode
+			endmethod
+			method set
+			proc
+				mCode = value
+			endmethod
+		endproperty
+		
+		public property Name, String
+			method get
+			proc
+				mreturn mName
+			endmethod
+			method set
+			proc
+				mName = value
+			endmethod
+		endproperty
+		
+	endclass
+
+endnamespace
+

@@ -1,0 +1,365 @@
+.array 0
+namespace GoogleGeocodingAPI
+
+	public partial class Form1 extends System.Windows.Forms.Form
+
+		private groupInput, @System.Windows.Forms.GroupBox
+		private cboMapType, @System.Windows.Forms.ComboBox
+		private lblRegion, @System.Windows.Forms.Label
+		private cboRegion, @System.Windows.Forms.ComboBox
+		private btnLookup, @System.Windows.Forms.Button
+		private lblAddress, @System.Windows.Forms.Label
+		private txtAddress, @System.Windows.Forms.TextBox
+		private panelBottom, @System.Windows.Forms.Panel
+		private groupResultNavigation, @System.Windows.Forms.GroupBox
+		private panel1, @System.Windows.Forms.Panel
+		private btnLast, @System.Windows.Forms.Button
+		private btnNext, @System.Windows.Forms.Button
+		private btnPrev, @System.Windows.Forms.Button
+		private btnFirst, @System.Windows.Forms.Button
+		private label9, @System.Windows.Forms.Label
+		private txtCurrentIndex, @System.Windows.Forms.TextBox
+		private txtMatches, @System.Windows.Forms.TextBox
+		private label8, @System.Windows.Forms.Label
+		private splitContainer, @System.Windows.Forms.SplitContainer
+		private resultGrid, @System.Windows.Forms.DataGridView
+		private Key, @System.Windows.Forms.DataGridViewTextBoxColumn
+		private ShortValue, @System.Windows.Forms.DataGridViewTextBoxColumn
+		private LongValue, @System.Windows.Forms.DataGridViewTextBoxColumn
+		private image, @System.Windows.Forms.PictureBox
+		private lblMapType, @System.Windows.Forms.Label
+
+		private method InitializeComponent, void
+			endparams
+		proc
+			this.groupInput = new System.Windows.Forms.GroupBox()
+			this.cboMapType = new System.Windows.Forms.ComboBox()
+			this.lblRegion = new System.Windows.Forms.Label()
+			this.cboRegion = new System.Windows.Forms.ComboBox()
+			this.btnLookup = new System.Windows.Forms.Button()
+			this.lblAddress = new System.Windows.Forms.Label()
+			this.txtAddress = new System.Windows.Forms.TextBox()
+			this.panelBottom = new System.Windows.Forms.Panel()
+			this.groupResultNavigation = new System.Windows.Forms.GroupBox()
+			this.panel1 = new System.Windows.Forms.Panel()
+			this.btnLast = new System.Windows.Forms.Button()
+			this.btnNext = new System.Windows.Forms.Button()
+			this.btnPrev = new System.Windows.Forms.Button()
+			this.btnFirst = new System.Windows.Forms.Button()
+			this.label9 = new System.Windows.Forms.Label()
+			this.txtCurrentIndex = new System.Windows.Forms.TextBox()
+			this.txtMatches = new System.Windows.Forms.TextBox()
+			this.label8 = new System.Windows.Forms.Label()
+			this.splitContainer = new System.Windows.Forms.SplitContainer()
+			this.resultGrid = new System.Windows.Forms.DataGridView()
+			this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn()
+			this.ShortValue = new System.Windows.Forms.DataGridViewTextBoxColumn()
+			this.LongValue = new System.Windows.Forms.DataGridViewTextBoxColumn()
+			this.image = new System.Windows.Forms.PictureBox()
+			this.lblMapType = new System.Windows.Forms.Label()
+			this.groupInput.SuspendLayout()
+			this.panelBottom.SuspendLayout()
+			this.groupResultNavigation.SuspendLayout()
+			this.panel1.SuspendLayout()
+			((@System.ComponentModel.ISupportInitialize)this.splitContainer).BeginInit()
+			this.splitContainer.Panel1.SuspendLayout()
+			this.splitContainer.Panel2.SuspendLayout()
+			this.splitContainer.SuspendLayout()
+			((@System.ComponentModel.ISupportInitialize)this.resultGrid).BeginInit()
+			((@System.ComponentModel.ISupportInitialize)this.image).BeginInit()
+			this.SuspendLayout()
+			;; 
+			;; groupInput
+			;; 
+			this.groupInput.Controls.Add(this.lblMapType)
+			this.groupInput.Controls.Add(this.cboMapType)
+			this.groupInput.Controls.Add(this.lblRegion)
+			this.groupInput.Controls.Add(this.cboRegion)
+			this.groupInput.Controls.Add(this.btnLookup)
+			this.groupInput.Controls.Add(this.lblAddress)
+			this.groupInput.Controls.Add(this.txtAddress)
+			this.groupInput.Dock = System.Windows.Forms.DockStyle.Top
+			this.groupInput.Location = new System.Drawing.Point(0, 0)
+			this.groupInput.Name = "groupInput"
+			this.groupInput.Size = new System.Drawing.Size(870, 72)
+			this.groupInput.TabIndex = 34
+			this.groupInput.TabStop = false
+			this.groupInput.Text = "Input Data"
+			;; 
+			;; cboMapType
+			;; 
+			this.cboMapType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+			this.cboMapType.FormattingEnabled = true
+			this.cboMapType.Items.AddRange(new object[#] {"Roadmap", "Satellite", "Terrain", "Hybrid"})
+			this.cboMapType.Location = new System.Drawing.Point(711, 26)
+			this.cboMapType.Name = "cboMapType"
+			this.cboMapType.Size = new System.Drawing.Size(104, 24)
+			this.cboMapType.TabIndex = 3
+			;; 
+			;; lblRegion
+			;; 
+			this.lblRegion.AutoSize = true
+			this.lblRegion.Location = new System.Drawing.Point(374, 29)
+			this.lblRegion.Name = "lblRegion"
+			this.lblRegion.Size = new System.Drawing.Size(83, 17)
+			this.lblRegion.TabIndex = 7
+			this.lblRegion.Text = "Region bias"
+			;; 
+			;; cboRegion
+			;; 
+			this.cboRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+			this.cboRegion.FormattingEnabled = true
+			this.cboRegion.Items.AddRange(new object[#] {"All Regions", "Australia (AU)", "Canada (CA)", "United Kingdom (UK)", "United States of America (US)"})
+			this.cboRegion.Location = new System.Drawing.Point(460, 26)
+			this.cboRegion.Name = "cboRegion"
+			this.cboRegion.Size = new System.Drawing.Size(169, 24)
+			this.cboRegion.TabIndex = 2
+			;; 
+			;; btnLookup
+			;; 
+			this.btnLookup.Location = new System.Drawing.Point(823, 21)
+			this.btnLookup.Name = "btnLookup"
+			this.btnLookup.Size = new System.Drawing.Size(41, 32)
+			this.btnLookup.TabIndex = 4
+			this.btnLookup.Text = "&GO"
+			this.btnLookup.UseVisualStyleBackColor = true
+			addhandler(this.btnLookup.Click, new System.EventHandler(this.btnLookup_Click))
+			;; 
+			;; lblAddress
+			;; 
+			this.lblAddress.AutoSize = true
+			this.lblAddress.Location = new System.Drawing.Point(6, 29)
+			this.lblAddress.Name = "lblAddress"
+			this.lblAddress.Size = new System.Drawing.Size(43, 17)
+			this.lblAddress.TabIndex = 4
+			this.lblAddress.Text = "Place"
+			;; 
+			;; txtAddress
+			;; 
+			this.txtAddress.Location = new System.Drawing.Point(51, 26)
+			this.txtAddress.Name = "txtAddress"
+			this.txtAddress.Size = new System.Drawing.Size(321, 22)
+			this.txtAddress.TabIndex = 1
+			this.txtAddress.Text = "100 Main Street"
+			;; 
+			;; panelBottom
+			;; 
+			this.panelBottom.Controls.Add(this.groupResultNavigation)
+			this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom
+			this.panelBottom.Location = new System.Drawing.Point(0, 586)
+			this.panelBottom.Name = "panelBottom"
+			this.panelBottom.Size = new System.Drawing.Size(870, 77)
+			this.panelBottom.TabIndex = 36
+			;; 
+			;; groupResultNavigation
+			;; 
+			this.groupResultNavigation.Controls.Add(this.panel1)
+			this.groupResultNavigation.Controls.Add(this.label9)
+			this.groupResultNavigation.Controls.Add(this.txtCurrentIndex)
+			this.groupResultNavigation.Controls.Add(this.txtMatches)
+			this.groupResultNavigation.Controls.Add(this.label8)
+			this.groupResultNavigation.Dock = System.Windows.Forms.DockStyle.Fill
+			this.groupResultNavigation.Location = new System.Drawing.Point(0, 0)
+			this.groupResultNavigation.Name = "groupResultNavigation"
+			this.groupResultNavigation.Size = new System.Drawing.Size(870, 77)
+			this.groupResultNavigation.TabIndex = 40
+			this.groupResultNavigation.TabStop = false
+			this.groupResultNavigation.Text = "Matching Results"
+			;; 
+			;; panel1
+			;; 
+			this.panel1.Controls.Add(this.btnLast)
+			this.panel1.Controls.Add(this.btnNext)
+			this.panel1.Controls.Add(this.btnPrev)
+			this.panel1.Controls.Add(this.btnFirst)
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Right
+			this.panel1.Location = new System.Drawing.Point(609, 18)
+			this.panel1.Name = "panel1"
+			this.panel1.Size = new System.Drawing.Size(258, 56)
+			this.panel1.TabIndex = 8
+			;; 
+			;; btnLast
+			;; 
+			this.btnLast.Enabled = false
+			this.btnLast.Location = new System.Drawing.Point(180, 10)
+			this.btnLast.Name = "btnLast"
+			this.btnLast.Size = new System.Drawing.Size(42, 23)
+			this.btnLast.TabIndex = 9
+			this.btnLast.Text = ">>"
+			this.btnLast.UseVisualStyleBackColor = true
+			addhandler(this.btnLast.Click, new System.EventHandler(this.btnLast_Click))
+			;; 
+			;; btnNext
+			;; 
+			this.btnNext.Enabled = false
+			this.btnNext.Location = new System.Drawing.Point(132, 10)
+			this.btnNext.Name = "btnNext"
+			this.btnNext.Size = new System.Drawing.Size(42, 23)
+			this.btnNext.TabIndex = 8
+			this.btnNext.Text = ">"
+			this.btnNext.UseVisualStyleBackColor = true
+			addhandler(this.btnNext.Click, new System.EventHandler(this.btnNext_Click))
+			;; 
+			;; btnPrev
+			;; 
+			this.btnPrev.Enabled = false
+			this.btnPrev.Location = new System.Drawing.Point(84, 10)
+			this.btnPrev.Name = "btnPrev"
+			this.btnPrev.Size = new System.Drawing.Size(42, 23)
+			this.btnPrev.TabIndex = 7
+			this.btnPrev.Text = "<"
+			this.btnPrev.UseVisualStyleBackColor = true
+			addhandler(this.btnPrev.Click, new System.EventHandler(this.btnPrev_Click))
+			;; 
+			;; btnFirst
+			;; 
+			this.btnFirst.Enabled = false
+			this.btnFirst.Location = new System.Drawing.Point(36, 10)
+			this.btnFirst.Name = "btnFirst"
+			this.btnFirst.Size = new System.Drawing.Size(42, 23)
+			this.btnFirst.TabIndex = 6
+			this.btnFirst.Text = "<<"
+			this.btnFirst.UseVisualStyleBackColor = true
+			addhandler(this.btnFirst.Click, new System.EventHandler(this.btnFirst_Click))
+			;; 
+			;; label9
+			;; 
+			this.label9.AutoSize = true
+			this.label9.Location = new System.Drawing.Point(205, 31)
+			this.label9.Name = "label9"
+			this.label9.Size = new System.Drawing.Size(20, 17)
+			this.label9.TabIndex = 7
+			this.label9.Text = "of"
+			;; 
+			;; txtCurrentIndex
+			;; 
+			this.txtCurrentIndex.Location = new System.Drawing.Point(146, 28)
+			this.txtCurrentIndex.Name = "txtCurrentIndex"
+			this.txtCurrentIndex.ReadOnly = true
+			this.txtCurrentIndex.Size = new System.Drawing.Size(53, 22)
+			this.txtCurrentIndex.TabIndex = 6
+			this.txtCurrentIndex.TabStop = false
+			;; 
+			;; txtMatches
+			;; 
+			this.txtMatches.Location = new System.Drawing.Point(231, 28)
+			this.txtMatches.Name = "txtMatches"
+			this.txtMatches.ReadOnly = true
+			this.txtMatches.Size = new System.Drawing.Size(53, 22)
+			this.txtMatches.TabIndex = 1
+			this.txtMatches.TabStop = false
+			;; 
+			;; label8
+			;; 
+			this.label8.AutoSize = true
+			this.label8.Location = new System.Drawing.Point(28, 31)
+			this.label8.Name = "label8"
+			this.label8.Size = new System.Drawing.Size(115, 17)
+			this.label8.TabIndex = 0
+			this.label8.Text = "Displaying match"
+			;; 
+			;; splitContainer
+			;; 
+			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill
+			this.splitContainer.Location = new System.Drawing.Point(0, 72)
+			this.splitContainer.Name = "splitContainer"
+			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+			;; 
+			;; splitContainer.Panel1
+			;; 
+			this.splitContainer.Panel1.Controls.Add(this.resultGrid)
+			;; 
+			;; splitContainer.Panel2
+			;; 
+			this.splitContainer.Panel2.Controls.Add(this.image)
+			this.splitContainer.Size = new System.Drawing.Size(870, 514)
+			this.splitContainer.SplitterDistance = 238
+			this.splitContainer.TabIndex = 45
+			;; 
+			;; resultGrid
+			;; 
+			this.resultGrid.AllowUserToAddRows = false
+			this.resultGrid.AllowUserToDeleteRows = false
+			this.resultGrid.AllowUserToResizeRows = false
+			this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+			this.resultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+			this.resultGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[#] {this.Key, this.ShortValue, this.LongValue})
+			this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill
+			this.resultGrid.Location = new System.Drawing.Point(0, 0)
+			this.resultGrid.Name = "resultGrid"
+			this.resultGrid.ReadOnly = true
+			this.resultGrid.RowHeadersVisible = false
+			this.resultGrid.RowTemplate.Height = 24
+			this.resultGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+			this.resultGrid.Size = new System.Drawing.Size(870, 238)
+			this.resultGrid.TabIndex = 5
+			this.resultGrid.TabStop = false
+			;; 
+			;; Key
+			;; 
+			this.Key.DataPropertyName = "Key"
+			this.Key.HeaderText = "Data Item"
+			this.Key.Name = "Key"
+			this.Key.ReadOnly = true
+			;; 
+			;; ShortValue
+			;; 
+			this.ShortValue.DataPropertyName = "ShortValue"
+			this.ShortValue.HeaderText = "Short Value"
+			this.ShortValue.Name = "ShortValue"
+			this.ShortValue.ReadOnly = true
+			;; 
+			;; LongValue
+			;; 
+			this.LongValue.DataPropertyName = "LongValue"
+			this.LongValue.HeaderText = "Long Value"
+			this.LongValue.Name = "LongValue"
+			this.LongValue.ReadOnly = true
+			;; 
+			;; image
+			;; 
+			this.image.Dock = System.Windows.Forms.DockStyle.Fill
+			this.image.Location = new System.Drawing.Point(0, 0)
+			this.image.Name = "image"
+			this.image.Size = new System.Drawing.Size(870, 272)
+			this.image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+			this.image.TabIndex = 0
+			this.image.TabStop = false
+			;; 
+			;; lblMapType
+			;; 
+			this.lblMapType.AutoSize = true
+			this.lblMapType.Location = new System.Drawing.Point(635, 29)
+			this.lblMapType.Name = "lblMapType"
+			this.lblMapType.Size = new System.Drawing.Size(71, 17)
+			this.lblMapType.TabIndex = 9
+			this.lblMapType.Text = "Map Type"
+			;; 
+			;; Form1
+			;; 
+			this.AcceptButton = this.btnLookup
+			this.ClientSize = new System.Drawing.Size(870, 663)
+			this.Controls.Add(this.splitContainer)
+			this.Controls.Add(this.panelBottom)
+			this.Controls.Add(this.groupInput)
+			this.MinimumSize = new System.Drawing.Size(880, 700)
+			this.Name = "Form1"
+			this.Text = "Synergy .NET Google Geocoding API and Static Maps API V2 Demo"
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized
+			this.groupInput.ResumeLayout(false)
+			this.groupInput.PerformLayout()
+			this.panelBottom.ResumeLayout(false)
+			this.groupResultNavigation.ResumeLayout(false)
+			this.groupResultNavigation.PerformLayout()
+			this.panel1.ResumeLayout(false)
+			this.splitContainer.Panel1.ResumeLayout(false)
+			this.splitContainer.Panel2.ResumeLayout(false)
+			((@System.ComponentModel.ISupportInitialize)this.splitContainer).EndInit()
+			this.splitContainer.ResumeLayout(false)
+			((@System.ComponentModel.ISupportInitialize)this.resultGrid).EndInit()
+			((@System.ComponentModel.ISupportInitialize)this.image).EndInit()
+			this.ResumeLayout(false)
+		endmethod
+	endclass
+endnamespace
+

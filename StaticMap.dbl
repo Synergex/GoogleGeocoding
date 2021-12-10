@@ -1,0 +1,240 @@
+import System
+import System.Collections.Generic
+
+namespace GoogleGeocodingAPI
+
+	public class StaticMap
+
+		private mMarkers		,@List<Marker>, new List<Marker>()
+		private mType			,MapType, StaticMap.MapType.Satellite
+		private mLatitudeCenter	,Double
+		private mLongitudeCenter,Double
+		private mZoom			,int
+		private mWidth			,int
+		private mHeight			,int
+		
+		public method GetMapURI, string
+			endparams
+		proc
+			data mapUri, string, "http://maps.google.com/staticmap"
+			mapUri = String.Format("{0}?center={1},{2}",mapUri,LatitudeCenter, LongitudeCenter)
+			mapUri = String.Format("{0}&zoom={1}",mapUri,Zoom)
+			mapUri = String.Format("{0}&size={1}x{2}&scale=2",mapUri,Width,Height)
+			mapUri = String.Format("{0}&maptype={1}",mapUri,Type.ToString().ToLower())
+			
+			data markerData, string, ""
+			data thisMarker, @Marker
+			
+			;; add markers
+			foreach thisMarker in mMarkers
+			begin
+				
+				data markerParams, string
+				;;Check if a marker character is supported
+				if ((thisMarker.size == MarkerSize.Normal) || (thisMarker.size == MarkerSize.Mid)) then
+				begin
+					;;Yes, character is supported
+					if (thisMarker.size == MarkerSize.Normal) then
+						markerParams = thisMarker.color.ToString().ToLower() + thisMarker.character
+					else
+						markerParams = thisMarker.size.ToString().ToLower() + thisMarker.color.ToString().ToLower() + thisMarker.character
+				end
+				else
+				begin
+					;;No, just render size and color
+					markerParams = thisMarker.size.ToString().ToLower() + thisMarker.color.ToString().ToLower()
+				end
+
+				markerData = markerData + string.Format("{0},{1},{2}|",
+				&	thisMarker.Latitude, 
+				&	thisMarker.Longitude,	
+				&	markerParams)
+			end
+
+			if ((markerData.Length > 0))
+				mapUri = mapUri + ("&markers=" + markerData.Substring(0, ((markerData.Length - 1))))
+
+			mreturn mapUri
+
+		endmethod
+
+		public property Markers, @List<Marker>
+			method get
+			proc
+				mreturn mMarkers
+			endmethod
+			method set
+			proc
+				mMarkers = value
+			endmethod
+		endproperty
+		
+		public property Type, MapType
+			method get
+			proc
+				mreturn mType
+			endmethod
+			method set
+			proc
+				mType = value
+			endmethod
+		endproperty
+		
+		public property LatitudeCenter, Double
+			method get
+			proc
+				mreturn mLatitudeCenter
+			endmethod
+			method set
+			proc
+				mLatitudeCenter = value
+			endmethod
+		endproperty
+		
+		public property LongitudeCenter, Double
+			method get
+			proc
+				mreturn mLongitudeCenter
+			endmethod
+			method set
+			proc
+				mLongitudeCenter = value
+			endmethod
+		endproperty
+		
+		public property Zoom, int
+			method get
+			proc
+				mreturn mZoom
+			endmethod
+			method set
+			proc
+				mZoom = value
+			endmethod
+		endproperty
+		
+		public property Width, int
+			method get
+			proc
+				mreturn mWidth
+			endmethod
+			method set
+			proc
+				mWidth = value
+			endmethod
+		endproperty
+		
+		public property Height, int
+			method get
+			proc
+				mreturn mHeight
+			endmethod
+			method set
+			proc
+				mHeight = value
+			endmethod
+		endproperty
+		
+		public class Marker
+			
+			private mChar, string, ""
+			private mLatitude, Double
+			private mLongitude, Double
+			private mSize, MarkerSize
+			private mColor, MarkerColor
+			
+			public property Character, string
+				method get
+				proc
+					mreturn mChar
+				endmethod
+				method set
+				proc
+					mChar = value
+				endmethod
+			endproperty
+			
+			public property Latitude, Double
+				method get
+				proc
+					mreturn mLatitude
+				endmethod
+				method set
+				proc
+					mLatitude = value
+				endmethod
+			endproperty
+			
+			public property Longitude, Double
+				method get
+				proc
+					mreturn mLongitude
+				endmethod
+				method set
+				proc
+					mLongitude = value
+				endmethod
+			endproperty
+			
+			public property Size, MarkerSize
+				method get
+				proc
+					mreturn mSize
+				endmethod
+				method set
+				proc
+					mSize = value
+				endmethod
+			endproperty
+			
+			public property Color, MarkerColor
+				method get
+				proc
+					mreturn mColor
+				endmethod
+				method set
+				proc
+					mColor = value
+				endmethod
+			endproperty
+			
+		endclass
+		
+		public enum MapFormat
+			gif, 0
+			jpg, 1
+			png, 2
+		endenum
+		
+		public enum MarkerSize
+			Normal, 0
+			Mid, 1
+			Small, 2
+			Tiny, 3
+		endenum
+		
+		public enum MarkerColor
+			Black, 0
+			Brown, 1
+			Green, 2
+			Purple, 3
+			Yellow, 4
+			Blue, 5
+			Gray, 6
+			Orange, 7
+			Red, 8
+			White, 9
+		endenum
+		
+		public enum MapType
+			Roadmap
+			Satellite
+			Terrain
+			Hybrid
+		endenum
+		
+	endclass
+
+endnamespace
+
+

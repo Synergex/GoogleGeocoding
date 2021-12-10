@@ -1,0 +1,265 @@
+import System
+import System.Collections.Generic
+import System.ComponentModel
+import System.Data
+import System.Net
+import System.Runtime.Serialization
+import System.Runtime.Serialization.Json
+import System.Web
+import System.Windows.Forms
+import System.Xml
+
+namespace GoogleGeocodingAPI
+	
+	public partial class Form1 extends System.Windows.Forms.Form
+		
+		googleGeoCodeUri, @string, "http://maps.googleapis.com/maps/api/geocode/json?address={0}&sensor=false"
+		response, @GeoResponse
+		upperIndex, int
+		currentIndex, int
+		regions, @List<Region>
+		
+		public method Form1
+			endparams
+		proc
+			this.InitializeComponent()
+			regions = new List<Region>()
+			regions.Add( new Region("","All Regions"))
+			regions.Add( new Region("au","Australia"))
+			regions.Add( new Region("ca","Canada"))
+			regions.Add( new Region("uk","United Kingdom"))
+			regions.Add( new Region("us","United States"))
+			cboRegion.DataSource = regions
+			cboRegion.DisplayMember = "Name"
+			cboRegion.ValueMember = "Code"
+			cboRegion.SelectedIndex = 0
+			cboMapType.SelectedIndex = 0
+		endmethod
+		
+		private method btnLookup_Click, void
+			sender, @object 
+			e, @System.EventArgs 
+			endparams
+		proc
+			currentIndex=0
+			upperIndex=0
+			clearForm()
+
+			data url, String, String.Format(googleGeoCodeUri,HttpUtility.UrlEncode(txtAddress.Text))
+
+			if (cboRegion.SelectedIndex>0)
+				url = url + "&region=" + cboRegion.SelectedValue.ToString()
+			
+			data request, @HttpWebRequest, (HttpWebRequest)(HttpWebRequest.Create(url))
+			request.Headers.Add(HttpRequestHeader.AcceptEncoding,"gzip,deflate")
+			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+			data serializer, @DataContractJsonSerializer, new DataContractJsonSerializer(^typeof(GeoResponse))
+			response = (GeoResponse)serializer.ReadObject(request.GetResponse().GetResponseStream())
+			
+			if (response.Status.Equals("OK"))
+			begin
+				upperIndex = response.Results.GetUpperBound(0)
+				txtMatches.Text = upperIndex
+				displayResults(response.Results[currentIndex=1])
+				txtCurrentIndex.Text = currentIndex.ToString()
+				setButtonState()
+			end
+			
+		endmethod
+		
+		method displayResults, void
+			required in result, @GeoResponse.GeoCodeResult
+			endparams
+		proc
+
+			data thisMatch, @List<GeocodeResponseItem>, new List<GeocodeResponseItem>()
+			thisMatch.Add(new GeocodeResponseItem("Formatted Address",result.formatted_address,""))
+			
+			clearForm()
+			
+			data c, @GeoResponse.GeoCodeResult.AddressComponent
+			
+			foreach c in result.AddressComponents
+			begin
+				if (c.LongName.Equals(c.ShortName))
+					c.LongName = ""
+				using c.Type[1] select
+				("administrative_area_level_1"),
+					thisMatch.Add(new GeocodeResponseItem("Administrative Area (Level 1)",c.ShortName, c.LongName))
+				("administrative_area_level_2"),
+					thisMatch.Add(new GeocodeResponseItem("Administrative Area (Level 2)",c.ShortName, c.LongName))
+				("administrative_area_level_3"),
+					thisMatch.Add(new GeocodeResponseItem("Administrative Area (Level 3)",c.ShortName, c.LongName))
+				("airport"),
+					thisMatch.Add(new GeocodeResponseItem("Airport",c.ShortName, c.LongName))
+				("colloquial_area"),
+					thisMatch.Add(new GeocodeResponseItem("Colloquial Area",c.ShortName, c.LongName))
+				("country"),
+					thisMatch.Add(new GeocodeResponseItem("Country",c.ShortName, c.LongName))
+				("establishment"),
+					thisMatch.Add(new GeocodeResponseItem("Establishment",c.ShortName, c.LongName))
+				("floor"),
+					thisMatch.Add(new GeocodeResponseItem("Floor",c.ShortName, c.LongName))
+				("intersection"),
+					thisMatch.Add(new GeocodeResponseItem("Intersection",c.ShortName, c.LongName))
+				("locality"),
+					thisMatch.Add(new GeocodeResponseItem("Locality (City)",c.ShortName, c.LongName))
+				("natural_feature"),
+					thisMatch.Add(new GeocodeResponseItem("Natural Feature",c.ShortName, c.LongName))
+				("neighborhood"),
+					thisMatch.Add(new GeocodeResponseItem("Neighborhood",c.ShortName, c.LongName))
+				("park"),
+					thisMatch.Add(new GeocodeResponseItem("Park",c.ShortName, c.LongName))
+				("point_of_interest"),
+					thisMatch.Add(new GeocodeResponseItem("Point Of Interest",c.ShortName, c.LongName))
+				("political"),
+					thisMatch.Add(new GeocodeResponseItem("Political",c.ShortName, c.LongName))
+				("post_box"),
+					thisMatch.Add(new GeocodeResponseItem("Post Box",c.ShortName, c.LongName))
+				("postal_code"),
+					thisMatch.Add(new GeocodeResponseItem("Postal Code",c.ShortName, c.LongName))
+				("postal_code_prefix"),
+					thisMatch.Add(new GeocodeResponseItem("Postal Code Prefix",c.ShortName, c.LongName))
+				("postal_town"),
+					thisMatch.Add(new GeocodeResponseItem("Postal Town",c.ShortName, c.LongName))
+				("premise"),
+					thisMatch.Add(new GeocodeResponseItem("Premise",c.ShortName, c.LongName))
+				("room"),
+					thisMatch.Add(new GeocodeResponseItem("Room",c.ShortName, c.LongName))
+				("route"),
+					thisMatch.Add(new GeocodeResponseItem("Route (Street)",c.ShortName, c.LongName))
+				("street_address"),
+					thisMatch.Add(new GeocodeResponseItem("Street Address",c.ShortName, c.LongName))
+				("street_number"),
+					thisMatch.Add(new GeocodeResponseItem("Street Number",c.ShortName, c.LongName))
+				("sublocality"),
+					thisMatch.Add(new GeocodeResponseItem("Sub-Locality",c.ShortName, c.LongName))
+				("subpremise"),
+					thisMatch.Add(new GeocodeResponseItem("Sub-Premise",c.ShortName, c.LongName))
+				(),
+					thisMatch.Add(new GeocodeResponseItem(c.Type[1],c.ShortName, c.LongName))
+				endusing
+			end
+			
+			;;Latitude and Longitude
+			thisMatch.Add(new GeocodeResponseItem("Latitude",result.Geometry.Location.Latitude.ToString(),""))
+			thisMatch.Add(new GeocodeResponseItem("Longitude",result.Geometry.Location.Longitude.ToString(),""))
+			
+			;;Get am image of the location
+			getImage(
+			&	result.Geometry.Location.Latitude,
+			&	result.Geometry.Location.Longitude,
+			&	image.Width,
+			&	image.Height)
+
+			resultGrid.DataSource = thisMatch
+			
+		endmethod
+		
+		private method getImage, void
+			required in aLatitude, Double
+			required in aLongitude, Double
+			required in aWidth, int
+			required in aHeight, int
+			endparams
+		proc
+			data map = new StaticMap()
+			map.Width = aWidth
+			map.Height = aHeight
+			map.Zoom = 15
+			map.LatitudeCenter = aLatitude
+			map.LongitudeCenter = aLongitude
+
+			using cboMapType.SelectedItem.ToString() select
+			("Satellite"),
+				map.Type = StaticMap.MapType.Satellite
+			("Terrain"),
+				map.Type = StaticMap.MapType.Terrain
+			("Hybrid"),
+				map.Type = StaticMap.MapType.Hybrid
+			(),
+				map.Type = StaticMap.MapType.Roadmap
+			endusing
+
+
+			data marker = new StaticMap.Marker()
+			marker.Latitude = map.LatitudeCenter
+			marker.Longitude = map.LongitudeCenter
+			marker.Size = StaticMap.MarkerSize.Normal
+			marker.Color = StaticMap.MarkerColor.Purple
+			marker.Character = "1"
+
+			map.Markers.Add(marker)
+
+			image.ImageLocation = map.GetMapURI()
+
+		endmethod
+
+		private method clearForm, void
+			endparams
+		proc
+			if (upperIndex>0) then
+				txtMatches.Text = upperIndex
+			else
+				txtMatches.Text = ""
+
+			if (currentIndex>0) then
+				txtCurrentIndex.Text = currentIndex
+			else
+				txtCurrentIndex.Text = currentIndex
+		endmethod
+
+		private method setButtonState, void
+			endparams
+		proc
+			btnFirst.Enabled = ((upperIndex>1)&&(currentIndex>1))
+			btnPrev.Enabled = ((upperIndex>1)&&(currentIndex>1))
+			btnNext.Enabled = ((upperIndex>1)&&(currentIndex<upperIndex))
+			btnLast.Enabled = ((upperIndex>1)&&(currentIndex<upperIndex))
+		endmethod		
+		
+		private method btnFirst_Click, void
+			sender, @object 
+			e, @System.EventArgs 
+			endparams
+		proc
+			displayResults(response.Results[currentIndex=1])
+			txtCurrentIndex.Text = currentIndex.ToString()
+			setButtonState()
+		endmethod
+		
+		
+		private method btnPrev_Click, void
+			sender, @object 
+			e, @System.EventArgs 
+			endparams
+		proc
+			displayResults(response.Results[currentIndex-=1])
+			txtCurrentIndex.Text = currentIndex.ToString()
+			setButtonState()
+		endmethod
+		
+		
+		private method btnNext_Click, void
+			sender, @object 
+			e, @System.EventArgs 
+			endparams
+		proc
+			displayResults(response.Results[currentIndex+=1])
+			txtCurrentIndex.Text = currentIndex.ToString()
+			setButtonState()
+		endmethod
+				
+		private method btnLast_Click, void
+			sender, @object 
+			e, @System.EventArgs 
+			endparams
+		proc
+			displayResults(response.Results[currentIndex=upperIndex])
+			txtCurrentIndex.Text = currentIndex.ToString()
+			setButtonState()
+		endmethod
+		
+	endclass
+endnamespace
+

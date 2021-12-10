@@ -1,0 +1,61 @@
+
+import System
+import System.Collections.Generic
+import System.Text
+
+namespace GoogleGeocodingAPI
+
+	public class GeocodeResponseItem
+		
+		mKey, String
+		mShortValue, String
+		mLongValue, String
+		
+		public method GeocodeResponseItem
+			required in aKey, String
+			required in aShortValue, String
+			required in aLongValue, String
+			endparams
+		proc
+			mKey = aKey
+			mShortValue = aShortValue
+			mLongValue = aLongValue
+		endmethod
+
+		public property Key, String
+			method get
+			proc
+				mreturn mKey
+			endmethod
+			method set
+			proc
+				mKey = value
+			endmethod
+		endproperty
+		
+		public property ShortValue, String
+			method get
+			proc
+				mreturn mShortValue
+			endmethod
+			method set
+			proc
+				mShortValue = value
+			endmethod
+		endproperty
+		
+		public property LongValue, String
+			method get
+			proc
+				mreturn mLongValue
+			endmethod
+			method set
+			proc
+				mLongValue = value
+			endmethod
+		endproperty
+		
+	endclass
+
+endnamespace
+

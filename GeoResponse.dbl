@@ -1,0 +1,177 @@
+import System
+import System.Runtime.Serialization
+
+.array 0
+namespace GoogleGeocodingAPI
+	
+	{DataContract()}
+	public class GeoResponse
+		
+		private m_Status, string
+		private m_Results, [#]@GeoCodeResult
+		
+		{DataMember(Name = "status")}
+		public property Status, string
+			method get
+			proc
+				mreturn m_Status
+			endmethod
+			method set
+			proc
+				m_Status = value
+			endmethod
+		endproperty
+		
+		{DataMember(Name = "results")}
+		public property Results, [#]@GeoCodeResult
+			method get
+			proc
+				mreturn m_Results
+			endmethod
+			method set
+			proc
+				m_Results = value
+			endmethod
+		endproperty
+		
+		{DataContract()}
+		public class GeoCodeResult
+			
+			private m_formatted_address, string
+			private m_AddressComponents, [#]@AddressComponent
+			private m_Geometry, @GeoLocationGeometry
+			
+			{DataMember(Name = "formatted_address")}
+			public property formatted_address, string
+				method get
+				proc
+					mreturn m_formatted_address
+				endmethod
+				method set
+				proc
+					m_formatted_address = value
+				endmethod
+			endproperty
+			
+			{DataMember(Name = "address_components")}
+			public property AddressComponents, [#]@AddressComponent
+				method get
+				proc
+					mreturn m_AddressComponents
+				endmethod
+				method set
+				proc
+					m_AddressComponents = value
+				endmethod
+			endproperty
+			
+			{DataMember(Name = "geometry")}
+			public property Geometry, @GeoLocationGeometry
+				method get
+				proc
+					mreturn m_Geometry
+				endmethod
+				method set
+				proc
+					m_Geometry = value
+				endmethod
+			endproperty
+			
+			{DataContract()}
+			public class AddressComponent
+				
+				private m_LongName, string
+				private m_ShortName, string
+				private m_Type, [#]string
+				
+				{DataMember(Name = "long_name")}
+				public property LongName, string
+					method get
+					proc
+						mreturn m_LongName
+					endmethod
+					method set
+					proc
+						m_LongName = value
+					endmethod
+				endproperty
+				
+				{DataMember(Name = "short_name")}
+				public property ShortName, string
+					method get
+					proc
+						mreturn m_ShortName
+					endmethod
+					method set
+					proc
+						m_ShortName = value
+					endmethod
+				endproperty
+				
+				{DataMember(Name = "types")}
+				public property Type, [#]string
+					method get
+					proc
+						mreturn m_Type
+					endmethod
+					method set
+					proc
+						m_Type = value
+					endmethod
+				endproperty
+				
+			endclass
+			
+			{DataContract()}
+			public class GeoLocationGeometry
+				
+				private m_Location, @GeoLocation
+				
+				{DataMember(Name = "location")}
+				public property Location, @GeoLocation
+					method get
+					proc
+						mreturn m_Location
+					endmethod
+					method set
+					proc
+						m_Location = value
+					endmethod
+				endproperty
+				
+				{DataContract()}
+				public class GeoLocation
+					
+					private mLatitude, double
+					private mLongitude, double
+					
+					{DataMember(Name = "lat")}
+					public property Latitude, double
+						method get
+						proc
+							mreturn mLatitude
+						endmethod
+						method set
+						proc
+							mLatitude = value
+						endmethod
+					endproperty
+					
+					{DataMember(Name = "lng")}
+					public property Longitude, double
+						method get
+						proc
+							mreturn mLongitude
+						endmethod
+						method set
+						proc
+							mLongitude = value
+						endmethod
+					endproperty
+					
+				endclass
+			endclass
+		endclass
+	endclass
+endnamespace
+
